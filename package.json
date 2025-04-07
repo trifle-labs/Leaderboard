@@ -2,7 +2,6 @@
   "name": "@trifle/leaderboard",
   "version": "1.0.2",
   "description": "A Solidity leaderboard contract",
-  "main": "index.js",
   "files": [
     "contracts/**/*.sol",
     "artifacts/**/*.json",
@@ -13,6 +12,10 @@
     "compile": "hardhat compile",
     "clean": "hardhat clean"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trifle-life/leaderboard.git"
+  },
   "keywords": [
     "solidity",
     "ethereum",
@@ -22,6 +25,10 @@
   ],
   "author": "",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trifle-life/leaderboard/issues"
+  },
+  "homepage": "https://github.com/trifle-life/leaderboard#readme",
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
