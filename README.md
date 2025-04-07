@@ -6,9 +6,9 @@ A highly efficient, gas-optimized on-chain leaderboard for Solidity, using an Au
 
 ## The Challenge & Solution
 
-On-chain leaderboards are tricky due to gas costs associated with sorting (\\(O(n \\log n)\\) or worse) and storage. This library solves this using an Augmented LLRB tree, providing:
+On-chain leaderboards are tricky due to gas costs associated with sorting ($O(n \log n)$ or worse) and storage. This library solves this using an Augmented LLRB tree, providing:
 
-- **Logarithmic Operations:** Inserts, deletes, and ranked lookups are \\(O(\log n)\\), keeping gas costs predictable.
+- **Logarithmic Operations:** Inserts, deletes, and ranked lookups are $O(\log n)$, keeping gas costs predictable.
 - **Self-Balancing:** Ensures efficient operations without costly manual rebalancing.
 - **On-Chain Ranking:** Tree augmentation allows efficient rank queries.
 - **Timestamped Tie-Breaking:** Unlike earlier implementations, if two entries have the same score, this library prioritizes the entry that was inserted _first_, ensuring fairness based on submission time.
