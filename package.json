@@ -1,6 +1,6 @@
 {
   "name": "@trifle/leaderboard",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Solidity leaderboard contract",
   "files": [
     "contracts/**/*.sol",
