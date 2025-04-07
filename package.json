@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trifle-life/leaderboard.git"
+    "url": "git+https://github.com/trifle-labs/leaderboard.git"
   },
   "keywords": [
     "solidity",
@@ -26,9 +26,9 @@
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/trifle-life/leaderboard/issues"
+    "url": "https://github.com/trifle-labs/leaderboard/issues"
   },
-  "homepage": "https://github.com/trifle-life/leaderboard#readme",
+  "homepage": "https://github.com/trifle-labs/leaderboard#readme",
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
