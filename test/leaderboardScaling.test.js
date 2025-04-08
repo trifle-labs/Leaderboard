@@ -84,14 +84,14 @@ describe.skip('Leaderboard Robust Scaling Tests', function () {
 
     // Deploy the contract
     leaderboardFactory = await ethers.getContractFactory('Leaderboard');
-    leaderboard = await leaderboardFactory.deploy();
+    leaderboard = await leaderboardFactory.deploy(true);
     await leaderboard.waitForDeployment();
   });
 
   describe('Large Scale Random Operations', function () {
     it('should handle hundreds of random inserts and removals correctly', async function () {
       // Reset leaderboard
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       const tracker = new LeaderboardTracker();
@@ -164,7 +164,7 @@ describe.skip('Leaderboard Robust Scaling Tests', function () {
   describe('Successive Value Insertions', function () {
     it('should handle hundreds of successively increasing insertions', async function () {
       // Reset leaderboard
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       const tracker = new LeaderboardTracker();
@@ -239,7 +239,7 @@ describe.skip('Leaderboard Robust Scaling Tests', function () {
 
     it('should handle hundreds of successively decreasing insertions', async function () {
       // Reset leaderboard
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       const tracker = new LeaderboardTracker();
@@ -309,7 +309,7 @@ describe.skip('Leaderboard Robust Scaling Tests', function () {
   describe('Same Value Insertions', function () {
     it('should handle hundreds of same-value insertions with correct nonce ordering', async function () {
       // Reset
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       const tracker = new LeaderboardTracker();
@@ -391,7 +391,7 @@ describe.skip('Leaderboard Robust Scaling Tests', function () {
   describe('Specific Sequence Tests', function () {
     it('should maintain correct structure after specific insert/remove sequences', async function () {
       // Reset leaderboard
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       const tracker = new LeaderboardTracker();

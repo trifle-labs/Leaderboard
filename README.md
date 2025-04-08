@@ -1,19 +1,33 @@
 # @trifle/leaderboard
 
-A highly efficient, gas-optimized on-chain leaderboard for Solidity, using an Augmented Left-Leaning Red-Black (LLRB) Tree.
+An on-chain leaderboard for Solidity, efficiently supporting large data sets using an Augmented Left-Leaning Red-Black (LLRB) Tree.
 
 [![npm version](https://badge.fury.io/js/%40trifle%2Fleaderboard.svg)](https://badge.fury.io/js/%40trifle%2Fleaderboard)
 
 ## The Challenge & Solution
 
-On-chain leaderboards are tricky due to gas costs associated with sorting ($O(n \log n)$ or worse) and storage. This library solves this using an Augmented LLRB tree, providing:
+On-chain leaderboards are tricky due to gas costs associated with sorting ($O(n²)$ or worse) and storage. This library solves this using an Augmented LLRB tree, providing:
 
 - **Logarithmic Operations:** Inserts, deletes, and ranked lookups are $O(\log n)$, keeping gas costs predictable.
 - **Self-Balancing:** Ensures efficient operations without costly manual rebalancing.
 - **On-Chain Ranking:** Tree augmentation allows efficient rank queries.
-- **Timestamped Tie-Breaking:** Unlike earlier implementations, if two entries have the same score, this library prioritizes the entry that was inserted _first_, ensuring fairness based on submission time.
+- **FIFO Tie-Breaking:** Unlike earlier implementations, if two entries have the same score, this library prioritizes the entry that was inserted _first_, ensuring fairness based on submission order.
 
 This makes `@trifle/leaderboard` ideal for on-chain games or DeFi applications needing efficient, gas-conscious ranked lists.
+
+## Sorting Order & Ranking
+
+The `Leaderboard` contract can operate in two modes, determined by the `sortAscending` boolean argument passed during deployment:
+
+- **`constructor(true)` (Ascending Order - Default):** Suitable for scenarios where a higher score is better (e.g., points). The highest score gets `rank 0`.
+- **`constructor(false)` (Descending Order):** Suitable for scenarios where a lower score is better (e.g., fastest time). The lowest score gets `rank 0`.
+
+**Key Points:**
+
+- **Tie-Breaking (FIFO):** Regardless of the sorting order, if multiple entries have the _same_ score, the entry that was inserted _first_ (First-In) will always have the better rank (First-Out).
+- **Index vs. Rank:** It's important to distinguish between retrieving by _index_ and retrieving by _rank_:
+  - `getValueAtIndex(i)`, `getOwnerAtIndex(i)`, `getIndexOfOwner(owner)`: These functions operate on the **tree's internal 0-based index**. `index 0` _always_ refers to the leftmost node according to the tree's comparison logic (smallest value if ascending, largest value if descending). `index size-1` is always the rightmost node.
+  - `getValueAtRank(r)`, `getOwnerAtRank(r)`, `getRankOfOwner(owner)`: These functions operate on a **0-based rank**, where `rank 0` _always_ represents the **most desirable score** (highest score if ascending, lowest score if descending). `rank size-1` is always the least desirable score.
 
 ## Acknowledgements & Prior Work
 
@@ -45,12 +59,8 @@ yarn add @trifle/leaderboard
 
     import "@trifle/leaderboard/contracts/Leaderboard.sol";
 
-    contract YourGameContract {
-        Leaderboard public leaderboard;
-
-        constructor(address _leaderboardAddress) {
-            leaderboard = Leaderboard(_leaderboardAddress);
-        }
+    contract YourGameContract is Leaderboard {
+        constructor() Leaderboard(true) {} // true for ascending order (points) or false for descending order (fastest time)
 
         function recordScore(address player, uint256 score) external {
             // Assuming higher score is better
@@ -71,47 +81,6 @@ yarn add @trifle/leaderboard
             return leaderboard.getOwnerAtRank(0); // Get owner with the highest rank
         }
     }
-    ```
-
-2.  **Deployment:**
-    You will need to deploy the `Leaderboard.sol` contract separately or link it as a library if you adapt the code structure. Pass the deployed address of the `Leaderboard` contract to the constructor of your contract that uses it.
-
-3.  **Interacting (JavaScript/TypeScript with Hardhat/Ethers.js):**
-
-    ```javascript
-    const { ethers } = require('hardhat');
-    const leaderboardArtifact = require('@trifle/leaderboard/artifacts/contracts/Leaderboard.sol/Leaderboard.json');
-
-    async function main() {
-      const leaderboardAddress = '0x...'; // Replace with deployed Leaderboard address
-      const leaderboard = await ethers.getContractAt(
-        leaderboardArtifact.abi,
-        leaderboardAddress
-      );
-
-      // Insert a score
-      const player = '0xPLAYER_ADDRESS';
-      const score = 12345;
-      const tx = await leaderboard.insert(score, player);
-      await tx.wait();
-      console.log(`Inserted score ${score} for player ${player}`);
-
-      // Get leaderboard size
-      const size = await leaderboard.size();
-      console.log('Leaderboard size:', size.toString());
-
-      // Get value by index (0 = smallest score)
-      if (size > 0) {
-        const valueAtIndex0 = await leaderboard.getValueAtIndex(0);
-        console.log('Value at index 0:', valueAtIndex0.toString());
-      }
-
-      // Get player's value
-      const playerValue = await leaderboard.getValue(player);
-      console.log(`Player ${player}'s value:`, playerValue.toString());
-    }
-
-    main().catch(console.error);
     ```
 
 ## Development & Testing

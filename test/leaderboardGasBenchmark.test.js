@@ -21,7 +21,7 @@ describe('Leaderboard Gas Benchmark', function () {
   };
 
   // Define leaderboard sizes to test - reducing the max size for quicker testing
-  const treeSizes = [10, 50, 100, 200, 500, 1000]; // Removed 2000 and 5000 for faster testing
+  const treeSizes = [10, 50, 100, 200, 500, 1000, 5000]; // Removed 2000 and 5000 for faster testing
 
   // Generate test addresses and values
   const testAddresses = [];
@@ -54,7 +54,7 @@ describe('Leaderboard Gas Benchmark', function () {
     console.log(`Building fresh leaderboard of size ${size}...`);
 
     // Deploy a fresh leaderboard for each test to avoid cleanup issues
-    leaderboard = await leaderboardFactory.deploy();
+    leaderboard = await leaderboardFactory.deploy(true);
     // With ethers v6, we don't need to call deployed() anymore
 
     // Insert n elements

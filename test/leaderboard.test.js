@@ -17,7 +17,7 @@ describe('Leaderboard', function () {
 
     // Deploy the contract
     leaderboardFactory = await ethers.getContractFactory('Leaderboard');
-    leaderboard = await leaderboardFactory.deploy();
+    leaderboard = await leaderboardFactory.deploy(true);
     await leaderboard.waitForDeployment();
   });
 
@@ -45,7 +45,7 @@ describe('Leaderboard', function () {
 
     it('should handle multiple insertions in ascending order', async function () {
       // Reset by redeploying
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       // Insert values in increasing order
@@ -78,7 +78,7 @@ describe('Leaderboard', function () {
 
     it('should handle multiple insertions in descending order', async function () {
       // Reset
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       // Insert values in decreasing order
@@ -111,7 +111,7 @@ describe('Leaderboard', function () {
 
     it('should handle multiple insertions in random order', async function () {
       // Reset
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       // Insert values in random order
@@ -144,7 +144,7 @@ describe('Leaderboard', function () {
 
     it('should handle removal correctly', async function () {
       // Reset
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       // Insert values
@@ -181,7 +181,7 @@ describe('Leaderboard', function () {
 
     it('should handle replacing an existing address entry', async function () {
       // Reset
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       // Insert initial value
@@ -206,7 +206,7 @@ describe('Leaderboard', function () {
   describe('Tie-Breaking Logic', function () {
     it('should handle same values with older nodes having higher indices', async function () {
       // Reset
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       // Insert same value for different accounts (will get automatically assigned increasing nonces)
@@ -243,7 +243,7 @@ describe('Leaderboard', function () {
     async function createLargeLeaderboard(numNodes, pattern) {
       // Reset
       const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
-      const newLeaderboard = await leaderboardFactory.deploy();
+      const newLeaderboard = await leaderboardFactory.deploy(true);
       await newLeaderboard.waitForDeployment();
       leaderboard = newLeaderboard;
 
@@ -376,7 +376,7 @@ describe('Leaderboard', function () {
     it('should maintain LLRB tree properties', async function () {
       // Reset
       const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       // Insert some values
@@ -392,7 +392,7 @@ describe('Leaderboard', function () {
     it('should correctly maintain size property', async function () {
       // Reset
       const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
-      leaderboard = await leaderboardFactory.deploy();
+      leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
       // Insert and remove values while checking size

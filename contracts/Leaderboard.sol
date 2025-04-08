@@ -30,6 +30,7 @@ contract Leaderboard {
     // Storage variables
     mapping(uint256 => Node) private nodes; // Node storage by node ID
     mapping(address => uint256) private ownerToNode; // Maps owner address to their node ID
+    bool private ascending; // Whether the leaderboard is sorted in ascending order
     uint256 private root; // Root node ID
     uint256 private NIL; // Sentinel NIL node ID
     uint256 private nodeCount; // Total number of nodes in the tree
@@ -42,7 +43,8 @@ contract Leaderboard {
     /**
      * @dev Constructor to initialize the tree
      */
-    constructor() {
+    constructor(bool ascending_) {
+        ascending = ascending_;
         // Initialize NIL sentinel node
         NIL = 0;
         nodes[NIL] = Node({
@@ -228,6 +230,17 @@ contract Leaderboard {
     }
 
     /**
+     * @dev Get the rank of an owner
+     * @param owner The address to find
+     * @return The rank of the owner's node
+     */
+    function getRankOfOwner(address owner) public view returns (uint256) {
+        uint256 nodeId = ownerToNode[owner];
+        require(nodeId != 0, "Owner does not exist in the leaderboard");
+        return nodeCount - _getNodeIndex(nodeId) - 1;
+    }
+
+    /**
      * @dev Get the nonce of a node for a given owner
      * @param owner The address to find
      * @return The nonce of when the owner's node was inserted
@@ -281,10 +294,11 @@ contract Leaderboard {
         Node storage node = nodes[nodeId];
         Node storage hNode = nodes[h];
 
-        if (
-            node.value < hNode.value ||
-            (node.value == hNode.value && node.nonce > hNode.nonce)
-        ) {
+        bool sort = ascending
+            ? node.value < hNode.value
+            : node.value > hNode.value;
+
+        if (sort || (node.value == hNode.value && node.nonce > hNode.nonce)) {
             // Insert to the left
             hNode.left = _insert(hNode.left, nodeId);
         } else {
@@ -321,10 +335,11 @@ contract Leaderboard {
     function _remove(uint256 h, uint256 nodeId) private returns (uint256) {
         Node storage hNode = nodes[h];
         Node storage target = nodes[nodeId];
-
+        bool sort = ascending
+            ? target.value < hNode.value
+            : target.value > hNode.value;
         if (
-            target.value < hNode.value ||
-            (target.value == hNode.value && target.nonce > hNode.nonce)
+            sort || (target.value == hNode.value && target.nonce > hNode.nonce)
         ) {
             // Target is to the left
             if (!_isRed(hNode.left) && !_isRed(nodes[hNode.left].left)) {

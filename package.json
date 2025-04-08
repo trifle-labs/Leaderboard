@@ -1,7 +1,7 @@
 {
   "name": "@trifle/leaderboard",
   "version": "1.0.5",
-  "description": "A Solidity leaderboard contract",
+  "description": "A Solidity leaderboard contract with FIFO tie-breaking",
   "files": [
     "contracts/**/*.sol",
     "artifacts/**/*.json",
@@ -23,7 +23,7 @@
     "contracts",
     "leaderboard"
   ],
-  "author": "",
+  "author": "Billy Rennekamp (@okwme)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/trifle-labs/leaderboard/issues"

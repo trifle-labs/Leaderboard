@@ -17,13 +17,13 @@ describe('Leaderboard Gas Analysis', function () {
 
     // Deploy the contract
     leaderboardFactory = await ethers.getContractFactory('Leaderboard');
-    leaderboard = await leaderboardFactory.deploy();
+    leaderboard = await leaderboardFactory.deploy(true);
     await leaderboard.waitForDeployment();
   });
 
   // Helper function to deploy a fresh leaderboard
   async function deployFreshLeaderboard() {
-    leaderboard = await leaderboardFactory.deploy();
+    leaderboard = await leaderboardFactory.deploy(true);
     await leaderboard.waitForDeployment();
     return leaderboard;
   }
@@ -264,53 +264,6 @@ describe('Leaderboard Gas Analysis', function () {
       console.log(`  Gas for getValueAtIndex: ${valueByIndexGas}`);
       console.log(`  Gas for getValue by owner: ${valueByOwnerGas}`);
       console.log(`  Ratio: ${valueByIndexGas / valueByOwnerGas}`);
-    });
-  });
-
-  describe('Batch Operations Comparison', function () {
-    it('should compare gas efficiency of batch operations vs individual operations', async function () {
-      const batchSizes = [5, 10, 20, 50];
-
-      for (const batchSize of batchSizes) {
-        // Individual operations
-        const individualTree = await deployFreshLeaderboard();
-        const wallets = await generateWallets(batchSize);
-
-        let totalIndividualGas = BigInt(0);
-        for (let i = 0; i < batchSize; i++) {
-          const tx = await individualTree.insert(i * 10, wallets[i].address);
-          totalIndividualGas += BigInt(await trackGasUsage(tx));
-        }
-
-        // Batch operations (multiple transactions in a single test)
-        const batchTree = await deployFreshLeaderboard();
-        let totalBatchGas = BigInt(0);
-
-        // Send all operations and track gas
-        for (let i = 0; i < batchSize; i++) {
-          const tx = await batchTree.insert(i * 10, wallets[i].address);
-          totalBatchGas += BigInt(await trackGasUsage(tx));
-        }
-
-        console.log(`Batch size ${batchSize}:`);
-        console.log(
-          `  Total gas for individual operations: ${totalIndividualGas}`
-        );
-        console.log(`  Total gas for batch operations: ${totalBatchGas}`);
-        console.log(
-          `  Gas saved with batching: ${Number(
-            totalIndividualGas - totalBatchGas
-          )}`
-        );
-        console.log(
-          `  Efficiency ratio: ${
-            Number(totalIndividualGas) / Number(totalBatchGas)
-          }`
-        );
-
-        // In practice, there should be almost no difference since we're not using
-        // any batching in the contract itself
-      }
     });
   });
 
