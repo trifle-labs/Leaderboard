@@ -1,6 +1,6 @@
 {
   "name": "@trifle/leaderboard",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A Solidity leaderboard contract with FIFO tie-breaking",
   "files": [
     "contracts/**/*.sol",
