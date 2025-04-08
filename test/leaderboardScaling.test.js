@@ -4,7 +4,7 @@ const { before, describe, it } = require('mocha');
 
 const ethers = hre.ethers;
 
-describe.skip('Leaderboard Robust Scaling Tests', function () {
+describe('Leaderboard Robust Scaling Tests', function () {
   this.timeout(900_000); // Extended timeout for very large scale tests
 
   let leaderboard;
@@ -83,7 +83,7 @@ describe.skip('Leaderboard Robust Scaling Tests', function () {
     accounts = await ethers.getSigners();
 
     // Deploy the contract
-    leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+    leaderboardFactory = await ethers.getContractFactory('LeaderboardTest');
     leaderboard = await leaderboardFactory.deploy(true);
     await leaderboard.waitForDeployment();
   });

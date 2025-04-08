@@ -16,7 +16,7 @@ describe('Leaderboard Gas Analysis', function () {
     accounts = await ethers.getSigners();
 
     // Deploy the contract
-    leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+    leaderboardFactory = await ethers.getContractFactory('LeaderboardTest');
     leaderboard = await leaderboardFactory.deploy(true);
     await leaderboard.waitForDeployment();
   });

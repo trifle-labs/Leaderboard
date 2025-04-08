@@ -32,7 +32,9 @@ describe('Leaderboard Gas Benchmark', function () {
     [deployer] = await hardhatEthers.getSigners();
 
     // Store the factory for later deployments
-    leaderboardFactory = await hardhatEthers.getContractFactory('Leaderboard');
+    leaderboardFactory = await hardhatEthers.getContractFactory(
+      'LeaderboardTest'
+    );
 
     // Pre-generate test addresses - using a more compatible approach
     console.log('Generating test data...');

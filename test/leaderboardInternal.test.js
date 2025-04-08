@@ -14,7 +14,9 @@ describe('Leaderboard (Internal Implementation)', function () {
     accounts = await ethers.getSigners();
 
     // Deploy the contract
-    const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+    const leaderboardFactory = await ethers.getContractFactory(
+      'LeaderboardTest'
+    );
     leaderboard = await leaderboardFactory.deploy(true);
     await leaderboard.waitForDeployment();
   });
@@ -33,7 +35,9 @@ describe('Leaderboard (Internal Implementation)', function () {
 
     it('should handle node balancing with left-leaning property', async function () {
       // Reset the leaderboard
-      const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+      const leaderboardFactory = await ethers.getContractFactory(
+        'LeaderboardTest'
+      );
       leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
@@ -53,7 +57,9 @@ describe('Leaderboard (Internal Implementation)', function () {
 
     it('should handle node balancing with decreasing values', async function () {
       // Reset the leaderboard
-      const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+      const leaderboardFactory = await ethers.getContractFactory(
+        'LeaderboardTest'
+      );
       leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
@@ -75,7 +81,9 @@ describe('Leaderboard (Internal Implementation)', function () {
   describe('Node Indices and Ordering', function () {
     it('should maintain correct indices after insertions and removals', async function () {
       // Reset the leaderboard
-      const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+      const leaderboardFactory = await ethers.getContractFactory(
+        'LeaderboardTest'
+      );
       leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
@@ -133,7 +141,9 @@ describe('Leaderboard (Internal Implementation)', function () {
 
     it('should maintain correct nonces and tie-breaking order', async function () {
       // Reset the leaderboard
-      const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+      const leaderboardFactory = await ethers.getContractFactory(
+        'LeaderboardTest'
+      );
       leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
@@ -177,7 +187,9 @@ describe('Leaderboard (Internal Implementation)', function () {
   describe('Size and Cleanup Handling', function () {
     it('should clean up owner nonces when removing nodes', async function () {
       // Reset the leaderboard
-      const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+      const leaderboardFactory = await ethers.getContractFactory(
+        'LeaderboardTest'
+      );
       leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
@@ -198,7 +210,9 @@ describe('Leaderboard (Internal Implementation)', function () {
 
     it('should update owner mapping when replacing a node', async function () {
       // Reset the leaderboard
-      const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+      const leaderboardFactory = await ethers.getContractFactory(
+        'LeaderboardTest'
+      );
       leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 

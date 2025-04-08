@@ -14,7 +14,7 @@ describe('Leaderboard (Descending Sort - Higher Value = Left)', function () {
 
   before(async function () {
     accounts = await ethers.getSigners();
-    leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+    leaderboardFactory = await ethers.getContractFactory('LeaderboardTest');
     leaderboard = await leaderboardFactory.deploy(SORT_ASCENDING);
     await leaderboard.waitForDeployment();
   });

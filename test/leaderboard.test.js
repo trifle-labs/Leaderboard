@@ -4,21 +4,31 @@ const { before, describe, it } = require('mocha');
 
 const ethers = hre.ethers;
 
-describe('Leaderboard', function () {
+describe('LeaderboardTest', function () {
   this.timeout(500_000); // Extended timeout for large tree tests
 
   let leaderboard;
   let accounts;
   let leaderboardFactory;
+  let snapshot;
 
   before(async function () {
     // Get test accounts
     accounts = await ethers.getSigners();
 
     // Deploy the contract
-    leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+    leaderboardFactory = await ethers.getContractFactory('LeaderboardTest');
     leaderboard = await leaderboardFactory.deploy(true);
     await leaderboard.waitForDeployment();
+
+    const isInitialized = await leaderboard.isInitialized();
+    expect(isInitialized).to.equal(true);
+
+    snapshot = await ethers.provider.send('evm_snapshot', []);
+  });
+
+  afterEach(async function () {
+    await ethers.provider.send('evm_revert', [snapshot]);
   });
 
   describe('Basic Operations', function () {
@@ -242,7 +252,9 @@ describe('Leaderboard', function () {
     // Helper function to create a large leaderboard
     async function createLargeLeaderboard(numNodes, pattern) {
       // Reset
-      const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+      const leaderboardFactory = await ethers.getContractFactory(
+        'LeaderboardTest'
+      );
       const newLeaderboard = await leaderboardFactory.deploy(true);
       await newLeaderboard.waitForDeployment();
       leaderboard = newLeaderboard;
@@ -375,7 +387,9 @@ describe('Leaderboard', function () {
   describe('Internal Implementation Tests', function () {
     it('should maintain LLRB tree properties', async function () {
       // Reset
-      const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+      const leaderboardFactory = await ethers.getContractFactory(
+        'LeaderboardTest'
+      );
       leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
@@ -391,7 +405,9 @@ describe('Leaderboard', function () {
 
     it('should correctly maintain size property', async function () {
       // Reset
-      const leaderboardFactory = await ethers.getContractFactory('Leaderboard');
+      const leaderboardFactory = await ethers.getContractFactory(
+        'LeaderboardTest'
+      );
       leaderboard = await leaderboardFactory.deploy(true);
       await leaderboard.waitForDeployment();
 
